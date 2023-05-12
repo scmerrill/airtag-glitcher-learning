@@ -66,11 +66,11 @@ avoid having to mess a lot with the Delay specified in the Jupyter Notebook.
 ![Raspberry Pi Pico Pinout](https://www.elektronik-kompendium.de/sites/raspberry-pi/bilder/raspberry-pi-pico-gpio.png)
 
 #### Close Up Photo of Airtag soldering
-![Close Up Photo of Airtag soldering](https://github.com/ensingerphilipp/airtag-glitch-improved/blob/main/assets/airtag_closeup_soldered.jpeg?raw=true)
+![Close Up Photo of Airtag soldering](https://github.com/scmerrill/airtag-glitcher-learning/blob/main/Assets/875E6844-1E08-4AA7-81BA-10CC482CAB26_1_102_o.jpeg)
 
 #### Completed (messy) prototype setup
-![setup_1](https://github.com/ensingerphilipp/airtag-glitch-improved/blob/main/assets/setup_1.jpeg?raw=true)
-![setup_2](https://github.com/ensingerphilipp/airtag-glitch-improved/blob/main/assets/setup_2.jpeg?raw=true)
+![setup_1](https://github.com/scmerrill/airtag-glitcher-learning/blob/main/Assets/A3F28D7F-877D-4C56-B262-2E2A35DF62D4_1_102_o.jpeg)
+![setup_2](https://github.com/scmerrill/airtag-glitcher-learning/blob/main/Assets/2C46767F-E0EA-4BCA-9BC3-CE7C4F556A17_1_105_c.jpeg)
 
 ## Software Setup
 
@@ -143,13 +143,16 @@ First of all make sure the Airtag is not connected to any iPhone (remove Airtag 
 
  1. Have the Hardware and Software set up, be in virtual environment and have jupyter Notebook open
  2. Connect the j-Link and the Raspberry Pi Pico via USB
- 3. Open minicom serial to Raspberry Pi Pico:
+ 3. Open minicom serial to Raspberry Pi Pico (replace /dev/ttyACM0 with your Pi Pico port):
  ```
 minicom -b 115200 -o -D /dev/ttyACM0
 ``` 
 4. You will be greeted by minicom with the board having started up and ready for use:
 ![minicom_connected](https://github.com/ensingerphilipp/airtag-glitch-improved/blob/main/assets/minicom.png?raw=true)
-5. Start the glitch script and let it run to completion - if it interrupted and printed a success message you can skip "Setting up the delay", otherwise the configured delay was not correct or you are unlucky
+5. Start the glitch script (from the python notebook) and let it run to completion - if it interrupted and printed a success message you can skip "Setting up the delay", otherwise the configured delay was not correct or you are unlucky. 
+
+You will see the serial monitor update as it runs
+![minicom updating](placeholder_url)
 
 ### Setting up the delay
 If the preconfigured delays do not do the job or you used slightly different hardware - you will need to adjust the delay within the trange in the jupyter notebook at:
@@ -168,6 +171,9 @@ while True:
 
 ***But what delay values to use?***
 #### Setting up the delay with oscilloscope
+
+I did not try this method as I dont have an oscilloscope... Yet... All this is pulled from https://github.com/ensingerphilipp/airtag-glitch-improved so it's all theoretical from my perspective. 
+
 Set a long range of delay and connect Oscilloscope Channel 1 to GPIO19 (Glitch Trigger) and Channel 2 to
 Airtag test point 28 (CPU_Core_Voltage) while the glitch script is running. 
 
@@ -186,8 +192,8 @@ _Picture of the voltage drop zoomed in (glitch trigger should be happneing just 
 For more information look at Approtect bypass on NRF52 by _limitedresults_ in "Useful Resources" below.
 
 #### Setting up delay without oscilloscope
-Basically - you will have to guess the delay.
-Set a broad range of delays and let it run overnight. E.g. trange(50000, 150000)
+Basically - you will have to guess the delay. This is the method I used since I do not have an oscilloscope.
+Set a broad range of delays and let it run overnight. E.g. trange(50000, 150000) I started with 63000, 84000 and worked from there over a couple nights. I suggest an oscilloscope and it might be time for me to invest in one.
 
 #### Glitching and Dumping (continuation)
 Now that we have the correct delay set we can continue after Step 5 from above
