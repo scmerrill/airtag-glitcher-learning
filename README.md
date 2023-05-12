@@ -1,6 +1,8 @@
 # Improved Airtag Glitcher
 _This Repo contains all docs and scripts needed to glitch & dump an Airtag._ 
 
+_It is a work in progress and is currently a mirror of https://github.com/ensingerphilipp/airtag-glitch-dump-improved which I am hoping to expand on and make easier for a novice hardware hacker._
+
 _It is heavily based on [this](https://github.com/stacksmashing/airtag-glitcher) popular repo by Stacksmashing as well as [this repo](https://github.com/ensingerphilipp/airtag-glitch-dump-improved) which helped me understand some of the basics, but wsant quite fully flushed out. - My goal is to further provide some docs for it so hardware hacking beginners like me know where to start._
 
 **Before you start** be sure to **give Stacksmashing´s Devcon 29 talk a [watch](https://www.youtube.com/watch?v=paxErRRsrTU).**
