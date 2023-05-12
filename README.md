@@ -63,7 +63,7 @@ I ended up using 100k resistors to make the signal to the Pico 0v when powered o
 You don't have to, but setting it up the same way will reduce the time you need for adjusting the delay in the jupyter notebook (especially if you have no oscilloscope) as the point in time where the trigger is activated will vary greatly depending on when the level Shifter considers the Airtag to be powered on (*HIGH*).
 
 #### N-Channel-Mosfet
-I used 2 PN2222 Mosfets because I had them laying around. These have pretty slow Turn-On Delay Times and Turn–On Rise Time, might be good to find some faster ones if you can like the BSS123.
+I used 2 PN2222 Mosfets because I had them laying around. These have pretty slow Turn-On Delay Times and Turn–On Rise Time, might be good to find some faster ones if you can like the NTR5103N.
 
 If you decide to use another Mosfet - choose one that has a fast Turn–On Delay Time and Turn–On Rise Time to 
 avoid having to mess a lot with the Delay specified in the Jupyter Notebook.
