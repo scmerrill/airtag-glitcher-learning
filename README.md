@@ -1,7 +1,7 @@
 # Improved Airtag Glitcher
 _This Repo contains all docs and scripts needed to glitch & dump an Airtag._ 
 
-_It is a work in progress and is currently a mirror of https://github.com/ensingerphilipp/airtag-glitch-dump-improved which I am hoping to expand on and make easier for a novice hardware hacker._
+_It is a work in progress and is basically a mirror of https://github.com/ensingerphilipp/airtag-glitch-dump-improved which I am hoping to expand on and show my journey into AirTag glitching. I am not a seasoned hardware hacker by any means, just a student trying to learn more about the hardware side of things._
 
 _It is heavily based on [this](https://github.com/stacksmashing/airtag-glitcher) popular repo by Stacksmashing as well as [this repo](https://github.com/ensingerphilipp/airtag-glitch-dump-improved) which helped me understand some of the basics, but wsant quite fully flushed out. - My goal is to further provide some docs for it so hardware hacking beginners like me know where to start._
 
@@ -15,10 +15,16 @@ It might also be useful to get familiar with all things provided in the "Useful 
 * Airtag(s) (because you can ruin the easily when soldering)
 * SWD Programmer (tested with J-Link)
 * Small (fast switching) N-Channel-Mosfet 
-* (Self-built) Level Converter 1.8V --> 3.3V
+* (Self-built) Level Converter 1.8V --> 3.3V (consists of another N-Channel-Mofset and some resistors. I used 2 100k resistors but it may vary)
 * Very thin wire & good soldering iron (or a cheap soldering iron and some patience with Arduino wiring)
+* An oscilloscope (Optional but it really would've made things easier)
 
 #### Wiring Diagram
+
+This is mainly where I differ from the other repository. I did not have all the components they used, and the wiring was a tad confusing for me, but after playing with it and Googling a bunch I came up with a slightly different wiring scheme)
+
+This will be updated with my wiring diagram as I have time
+
 ![Wiring Diagram](https://github.com/ensingerphilipp/airtag-glitch-improved/blob/main/assets/wiring.jpg?raw=true)
 _Every ground should in the end always be connected to any gnd pin on the Raspberry Pi Pico_
 
@@ -75,7 +81,7 @@ avoid having to mess a lot with the Delay specified in the Jupyter Notebook.
 ## Software Setup
 
 ### Dependencies
-* some linux distro (might work on Windows with some changes)
+* some linux distro (Or Mac. I used an M2 MacBook with homebrew, might work on Windows with some changes)
 * python 3.8+
 * openocd for checking debug + dumping
 * nrfjprog (J-Link only) for reset + flashing <-- might work with openocd as well
@@ -106,7 +112,7 @@ make
 
 Otherwise you can just use **built_binary/pico_firmware_current.uf2** for the Raspberry
 
-To flash the Binary, longpress and hold the _BOOTSEL_ button on the Raspberry Pi Pico and connect it via USB.
+To flash the Binary, longpress and hold the _BOOTSEL_ button on the Raspberry Pi Pico and connect it via USB while still holding the button.
 Copy the built .uf2 Binary to the RPI-RP2 Mass Storage Device.
 
 ### Setting up the Python environment
@@ -149,7 +155,7 @@ minicom -b 115200 -o -D /dev/ttyACM0
 ``` 
 4. You will be greeted by minicom with the board having started up and ready for use:
 ![minicom_connected](https://github.com/ensingerphilipp/airtag-glitch-improved/blob/main/assets/minicom.png?raw=true)
-5. Start the glitch script (from the python notebook) and let it run to completion - if it interrupted and printed a success message you can skip "Setting up the delay", otherwise the configured delay was not correct or you are unlucky. 
+5. Start the glitch script (in the python notebook) and let it run to completion - if it interrupted and printed a success message you can skip "Setting up the delay", otherwise the configured delay was not correct or you are unlucky. 
 
 You will see the serial monitor update as it runs
 ![minicom updating](placeholder_url)
@@ -229,8 +235,6 @@ You have successfully dumped the Airtag - now you can do whatever you wish with 
 ## Reflashing / Modification
 **DO NOT USE OPENOCD** to flash an image to the airtag --> **YOU WILL BRICK IT** 
 
---- this section is ommited from public viewing due to moral concerns ---
-
 ## Useful Resources:
 Stacksmashing´s Devcon 29 Talk about Airtags:
 > https://www.youtube.com/watch?v=paxErRRsrTU
@@ -247,3 +251,6 @@ _limitedresults_ Attacking NRF52 Blackhat2020 Slides:
 
 Airtag general technical information by _Adam Catley_:
 > https://adamcatley.com/AirTag
+
+_Improved AirTag Glitching repo which helped me figure out more of the logistics and a good starting point for doing this yourself_:
+> https://github.com/ensingerphilipp/airtag-glitch-dump-improved
