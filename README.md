@@ -45,6 +45,8 @@ The Airtag is being powered by our Raspberry Pi Pico. If you take a quick look a
 #### Soldering Airtag test points
 Be extra careful, use very thin wires and max heat of 270°C to reduce chance of damaging the test pads (which fall of easily). 
 
+The above is probably the correct way to go. I managed with a cheap $10 soldering iron, and arduino wires by tinning the wires, then placing them on the pads and gently tapping the iron on the wire and pad. This will eventually solder the wire to the pad just takes some patience.
+
 #### Level Shifter #1
 Due to the way the level shifter is constructed the Raspberry Pi Pico will receive **3.3 volts when** the Airtag is **powered down** and **0.0 volts when** the Airtag is **powered up** (1.8V are being sensed at NRF_VDD test point). If you change characteristics of the level shifter or use a prebuilt one you have to change and rebuild the Pico Firmware at
 >while(gpio_get(IN_NRF_VDD));
