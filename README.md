@@ -3,9 +3,9 @@ _This Repo contains all docs and scripts needed to glitch & dump an Airtag._
 
 _It is a work in progress and is basically a mirror of https://github.com/ensingerphilipp/airtag-glitch-dump-improved which I am hoping to expand on and show my journey into AirTag glitching. I am not a seasoned hardware hacker by any means, just a student trying to learn more about the hardware side of things._
 
-_It is heavily based on [this](https://github.com/stacksmashing/airtag-glitcher) popular repo by Stacksmashing as well as [this repo](https://github.com/ensingerphilipp/airtag-glitch-dump-improved) which helped me understand some of the basics, but wsant quite fully flushed out. - My goal is to further provide some docs for it so hardware hacking beginners like me know where to start._
+_It is heavily based on [this](https://github.com/stacksmashing/airtag-glitcher) popular repo by Stacksmashing as well as [this repo](https://github.com/ensingerphilipp/airtag-glitch-dump-improved) which helped me understand most of the basics, but I still had some issues. - My goal is to show my journey and maybe further provide some docs for it so hardware hacking beginners like me know where to start._
 
-**Before you start** be sure to **give Stacksmashing´s Devcon 29 talk a [watch](https://www.youtube.com/watch?v=paxErRRsrTU).**
+**Before you start** be sure to **give Stacksmashing´s Defcon 29 talk a [watch](https://www.youtube.com/watch?v=paxErRRsrTU).**
 
 It might also be useful to get familiar with all things provided in the "Useful Resources" section of this Repository.
 
@@ -17,13 +17,13 @@ It might also be useful to get familiar with all things provided in the "Useful 
 * Small (fast switching) N-Channel-Mosfet 
 * (Self-built) Level Converter 1.8V --> 3.3V (consists of another N-Channel-Mofset and some resistors. I used 2 100k resistors but it may vary)
 * Very thin wire & good soldering iron (or a cheap soldering iron and some patience with Arduino wiring)
-* An oscilloscope (Optional but it really would've made things easier)
+* An oscilloscope (Optional but it really would've made things faster and easier)
 
 #### Wiring Diagram
 
 This is mainly where I differ from the other repository. I did not have all the components they used, and the wiring was a tad confusing for me, but after playing with it and Googling a bunch I came up with a slightly different wiring scheme)
 
-This will be updated with my wiring diagram as I have time
+This will be updated with my wiring diagram as I have time. For now this is the one I based mine off of. 
 
 ![Wiring Diagram](https://github.com/ensingerphilipp/airtag-glitch-improved/blob/main/assets/wiring.jpg?raw=true)
 _Every ground should in the end always be connected to any gnd pin on the Raspberry Pi Pico_
@@ -53,19 +53,19 @@ and change it to
 >while(!gpio_get(IN_NRF_VDD));
 
 #### Level Shifter #2
-I used a potentiometer as resistor in the level shifter. It was set in a way to behave like cmos logic.
+I used two 100k resistors in the level shifter. It was set in a way to behave like cmos logic.
 > https://learn.sparkfun.com/tutorials/logic-levels/all
 
-If you have a CMOS Logic anything over *0.606 x Nominal Voltage* is considered *HIGH* = 1
-So i set the potentiometer to *activate the transistor* when it receives > ~ *1.09 Volts*  (0.606 x 1.8V).
-*Why is this important?*
-It is not, but setting it up the same way will reduce the time you need for adjusting the delay in the jupyter notebook (especially if you have no oscilloscope) as the point in time where the trigger is activated will vary greatly depending on when the level Shifter considers the Airtag to be powered on (*HIGH*).
+If you have a CMOS Logic anything over *0.606 x Nominal Voltage* (~1.09V) is considered *HIGH* = 1
+The 1.8v signal will activate the transistor when it receives power. This is probably not the most efficient way to do this I admit but I had some transistors and resistors on hand so I worked with what I had.
+I ended up using 100k resistors to make the signal to the Pico 0v when powered on, I had to try a couple to get it below 1.09v. 
+*Why should you probably use a petentiometer?*
+You don't have to, but setting it up the same way will reduce the time you need for adjusting the delay in the jupyter notebook (especially if you have no oscilloscope) as the point in time where the trigger is activated will vary greatly depending on when the level Shifter considers the Airtag to be powered on (*HIGH*).
 
 #### N-Channel-Mosfet
-I used the BSS123 Mosfet because i had that laying around
-> https://www.onsemi.com/pdf/datasheet/bss123-d.pdf
+I used 2 PN2222 Mosfets because I had them laying around. These have pretty slow Turn-On Delay Times and Turn–On Rise Time, might be good to find some faster ones if you can like the BSS123.
 
-If you decide to use another Mosfet - choose one that has similarly fast Turn–On Delay Time and Turn–On Rise Time to 
+If you decide to use another Mosfet - choose one that has a fast Turn–On Delay Time and Turn–On Rise Time to 
 avoid having to mess a lot with the Delay specified in the Jupyter Notebook.
 
 #### Raspberry  Pi Pico Pinout
@@ -137,7 +137,7 @@ jupyter notebook
  ---------------------------------------------------------------------------------------
 Errors are ok as long as config is read correctly - otherwise copy the testnrf.cfg to the correct folder
 ```
-5. Be sure that the current user has permissions for Serial Com Ports (for ubuntu add the user to dialout group and restart system - otherwise you have  to manually chmod 777 the serial port after connecting Raspberry)
+5. Be sure that the current user has permissions for Serial Com Ports (for ubuntu add the user to dialout group and restart system - otherwise you have  to manually chmod 777 the serial port after connecting Raspberry) (Dont have to do this on Macos)
 ```
 usermod -a -G dialout $USER
 ```
@@ -178,7 +178,7 @@ while True:
 ***But what delay values to use?***
 #### Setting up the delay with oscilloscope
 
-I did not try this method as I dont have an oscilloscope... Yet... All this is pulled from https://github.com/ensingerphilipp/airtag-glitch-improved so it's all theoretical from my perspective. 
+I did not try this method as I dont have an oscilloscope... Yet... All this is pulled from https://github.com/ensingerphilipp/airtag-glitch-improved  
 
 Set a long range of delay and connect Oscilloscope Channel 1 to GPIO19 (Glitch Trigger) and Channel 2 to
 Airtag test point 28 (CPU_Core_Voltage) while the glitch script is running. 
